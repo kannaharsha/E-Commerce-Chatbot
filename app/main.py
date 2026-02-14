@@ -4,18 +4,12 @@ from sql import sql_chain
 from pathlib import Path
 from router import router
 
-# ---------------------------------------------
-# PAGE CONFIGURATION
-# ---------------------------------------------
 st.set_page_config(
     page_title="E-Commerce AI Assistant",
     page_icon="🛍️",
     layout="wide"
 )
 
-# ---------------------------------------------
-# CUSTOM CSS STYLING
-# ---------------------------------------------
 st.markdown("""
     <style>
         .main-title {
@@ -36,9 +30,6 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# ---------------------------------------------
-# SIDEBAR
-# ---------------------------------------------
 with st.sidebar:
     st.image("https://cdn-icons-png.flaticon.com/512/3081/3081559.png", width=100)
     st.markdown("## 🛒 E-Commerce Bot")
@@ -54,22 +45,13 @@ with st.sidebar:
     st.markdown("- LLM Router")
     st.markdown("- SQL + RAG")
 
-# ---------------------------------------------
-# HEADER
-# ---------------------------------------------
 st.markdown('<p class="main-title">🛍️ E-Commerce AI Assistant</p>', unsafe_allow_html=True)
 st.markdown('<p class="subtitle">Ask about products, FAQs, or database queries</p>', unsafe_allow_html=True)
 st.divider()
 
-# ---------------------------------------------
-# INGEST FAQ DATA
-# ---------------------------------------------
 faqs_path = Path(__file__).parent / "resources/faq_data.csv"
 ingest_faq_path(faqs_path)
 
-# ---------------------------------------------
-# ROUTING FUNCTION
-# ---------------------------------------------
 def ask(query):
     try:
         route = router(query).name
@@ -86,22 +68,13 @@ def ask(query):
     except Exception as e:
         return f"❌ Error: {str(e)}"
 
-# ---------------------------------------------
-# SESSION STATE
-# ---------------------------------------------
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# ---------------------------------------------
-# DISPLAY CHAT HISTORY
-# ---------------------------------------------
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-# ---------------------------------------------
-# CHAT INPUT
-# ---------------------------------------------
 query = st.chat_input("Type your question here...")
 
 if query:
@@ -124,10 +97,6 @@ if query:
         "role": "assistant",
         "content": response
     })
-
-# ---------------------------------------------
-# FOOTER
-# ---------------------------------------------
 st.markdown("""
     <div class="footer">
         © 2026 E-Commerce AI Assistant | Built using Streamlit & LLM Routing
